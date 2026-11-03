@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#143d35">
+  <title>EasyRep | 매장 사육장 관리</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" class="symbols" aria-hidden="true">
+  <symbol id="mark" viewBox="0 0 40 40"><rect x="1" y="1" width="38" height="38" rx="10" fill="currentColor"/><path d="M9 27c3-12 9-16 22-17-1 12-7 20-18 17l12-11c-6 3-10 6-16 11Z" fill="#d4f5ae"/></symbol>
+</svg>
+<main id="access" class="access" hidden>
+  <section class="cover" aria-label="EasyRep 사육장 운영 플랫폼">
+    <div class="brand"><svg aria-hidden="true"><use href="#mark"/></svg>EasyRep</div>
+    <div class="cover-message"><p class="eyebrow">HABITAT OPERATIONS</p><h1>매장 사육장<br>운영 관리</h1><p>현장 센서와 장치 응답을<br>매장별로 확인하세요.</p></div>
+    <svg class="terrarium" viewBox="0 0 420 270" aria-hidden="true" fill="none">
+      <g stroke="#82ad96" stroke-width="1.7" stroke-linejoin="round">
+        <path d="m39 104 146-60 179 60-145 69zM39 104v78l180 67 145-68v-77M219 173v76M185 44v78"/>
+        <path d="m40 170 145-58 178 59M41 190l178 66 144-68" opacity=".48"/>
+        <path d="m57 172 41-22 44 9 58-20 51 16 45-8 49 19M100 188l51-19 30 6 67-19M154 207l54-17 31 5 68-23" opacity=".8"/>
+        <path d="M131 166v-44m0 28q-25-2-25-21 18 1 25 21Zm0-9q-1-20 17-26 4 17-17 26ZM279 158v-41m0 24q-21-5-18-22 16 3 18 22Zm0-7q3-18 19-22 0 17-19 22Z" fill="#366454"/>
+      </g><g fill="#d1efac"><circle cx="39" cy="104" r="3"/><circle cx="219" cy="173" r="3"/><circle cx="364" cy="104" r="3"/></g>
+    </svg>
+  </section>
+  <section class="login-side"><form id="login-form" class="login-card">
+    <p class="eyebrow">STORE CONSOLE</p><h2>관리자 로그인</h2>
+    <p class="muted">배정받은 계정으로 매장에 접속하세요.</p>
+    <label for="username">계정 이름</label><input id="username" autocomplete="username" required maxlength="128">
+    <label for="password">비밀번호</label><input id="password" type="password" autocomplete="current-password" required>
+    <button class="primary" id="login-button">로그인 <span aria-hidden="true">→</span></button>
+    <p id="login-message" class="form-message" role="alert"></p>
+  </form></section>
+</main>
+<main id="console" hidden>
+  <header><div class="wrap topbar">
+    <div class="brand"><svg aria-hidden="true"><use href="#mark"/></svg>EasyRep</div>
+    <div class="top-tools"><span id="account" class="account"></span><button id="logout" class="quiet">로그아웃</button></div>
+  </div></header>
+  <div class="wrap content">
+    <section class="page-title"><div><p class="eyebrow">STORE OPERATIONS</p><h1>사육장 관리</h1></div>
+      <div class="store-picker"><label for="store">선택한 매장</label><select id="store"></select></div>
+    </section>
+    <div class="update-line"><span id="updated">매장 데이터를 기다리는 중</span><button id="refresh" class="quiet">새로고침</button></div>
+    <p id="notice" class="notice" role="status" hidden></p>
+    <section id="overview" class="overview" aria-label="선택한 매장 현황">
+      <div><span>등록 사육장</span><strong id="count-all">—</strong></div>
+      <div><span>최근 유효 측정</span><strong id="count-ok">—</strong></div>
+      <div><span>확인 필요</span><strong id="count-care">—</strong></div>
+    </section>
+    <div class="workspace">
+      <aside class="panel"><div class="panel-head"><p class="eyebrow">ENCLOSURES</p><h2>사육장 목록</h2></div><div id="cages" class="cage-list"></div></aside>
+      <div class="stack">
+        <section class="panel"><div class="panel-head"><p class="eyebrow">TELEMETRY</p><h2 id="cage-title">센서 측정값</h2><p id="cage-meta" class="muted"></p></div>
+          <div id="readings" class="readings"></div><div id="sample-meta" class="footnote"></div>
+        </section>
+        <section class="panel"><div class="panel-head"><p class="eyebrow">DEVICE CONTROL</p><h2>장치 제어</h2><p id="control-note" class="muted"></p></div>
+          <div id="controls"></div><p id="action-message" class="form-message" role="status"></p>
+        </section>
+        <section class="panel"><div class="panel-head"><p class="eyebrow">COMMAND LOG</p><h2>제어 기록</h2><p class="muted">선택한 사육장에 보낸 요청과 장치의 처리 결과입니다.</p></div><div id="commands"></div></section>
+      </div>
+    </div>
+    <footer>EasyRep <span>매장 운영 콘솔</span></footer>
+  </div>
+</main>
+<p id="boot" role="status">EasyRep에 연결하는 중…</p>
+</body>
+</html>
