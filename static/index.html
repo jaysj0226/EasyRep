@@ -68,15 +68,42 @@
       <div class="stat stat-care"><svg aria-hidden="true"><use href="#attention"/></svg><span>확인 필요</span><strong id="count-care">—</strong></div>
     </section>
     <div class="workspace">
-      <aside class="panel cage-index"><div class="panel-head"><p class="eyebrow">01 <span>/</span> Enclosures</p><h2>사육장 목록</h2></div><div id="cages" class="cage-list"></div></aside>
+      <aside class="panel cage-index">
+        <div class="panel-head"><p class="eyebrow">01 <span>/</span> Enclosures</p><h2>사육장 목록</h2></div>
+        <label class="search-label" for="cage-search">사육장 찾기</label>
+        <input id="cage-search" class="cage-search" type="search" placeholder="사육장·장치 번호 검색" autocomplete="off">
+        <div class="cage-filters" role="group" aria-label="사육장 상태 필터">
+          <button id="filter-all" aria-pressed="true">전체</button>
+          <button id="filter-care" aria-pressed="false">확인 필요</button>
+        </div>
+        <p id="list-summary" class="list-summary" role="status"></p>
+        <div id="cages" class="cage-list"></div>
+      </aside>
       <div class="stack">
-        <section class="panel"><div class="panel-head"><p class="eyebrow">02 <span>/</span> Telemetry</p><h2 id="cage-title">센서 측정값</h2><p id="cage-meta" class="muted"></p></div>
-          <div id="readings" class="readings"></div><div id="sample-meta" class="footnote"></div>
+        <section class="panel observation" aria-labelledby="cage-title">
+          <div class="panel-head selected-header">
+            <div><p class="eyebrow">02 <span>/</span> Field observation</p><h2 id="cage-title">사육장을 선택하세요</h2><p id="cage-meta" class="muted"></p></div>
+            <div id="cage-state"></div>
+          </div>
+          <p id="cage-advice" class="health-note" role="status"></p>
+          <div class="detail-tabs" role="tablist" aria-label="사육장 상세 화면">
+            <button id="tab-sensors" role="tab" aria-selected="true" aria-controls="panel-sensors" tabindex="0">환경 측정</button>
+            <button id="tab-controls" role="tab" aria-selected="false" aria-controls="panel-controls" tabindex="-1">장치 제어</button>
+            <button id="tab-history" role="tab" aria-selected="false" aria-controls="panel-history" tabindex="-1">제어 기록</button>
+          </div>
+          <section id="panel-sensors" class="detail-panel" role="tabpanel" aria-labelledby="tab-sensors" tabindex="0">
+            <div id="readings" class="readings"></div>
+            <div id="sample-meta" class="footnote"></div>
+          </section>
+          <section id="panel-controls" class="detail-panel" role="tabpanel" aria-labelledby="tab-controls" tabindex="0" hidden>
+            <p id="control-note" class="muted"></p>
+            <div id="controls"></div><p id="action-message" class="form-message" role="status"></p>
+          </section>
+          <section id="panel-history" class="detail-panel" role="tabpanel" aria-labelledby="tab-history" tabindex="0" hidden>
+            <p class="muted">선택한 사육장에 보낸 요청과 장치의 처리 결과입니다.</p>
+            <div id="commands"></div>
+          </section>
         </section>
-        <section class="panel"><div class="panel-head"><p class="eyebrow">03 <span>/</span> Device control</p><h2>장치 제어</h2><p id="control-note" class="muted"></p></div>
-          <div id="controls"></div><p id="action-message" class="form-message" role="status"></p>
-        </section>
-        <section class="panel"><div class="panel-head"><p class="eyebrow">04 <span>/</span> Command log</p><h2>제어 기록</h2><p class="muted">선택한 사육장에 보낸 요청과 장치의 처리 결과입니다.</p></div><div id="commands"></div></section>
       </div>
     </div>
     <footer><span>EasyRep</span> 파충류 사육장 관찰 기록</footer>
