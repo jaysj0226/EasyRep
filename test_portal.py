@@ -71,6 +71,18 @@ class PortalTest(unittest.TestCase):
         threading.Thread(target=portal.serve_forever, daemon=True).start()
         cls.base = f"http://127.0.0.1:{portal.server_port}"
 
+    def test_canopy_content_type_and_static_allowlist(self):
+        client = Browser(self.base)
+        with tempfile.TemporaryDirectory() as temp, patch.object(server, "STATIC", Path(temp)):
+            sample = b"RIFF\x0c\x00\x00\x00WEBPVP8 \x00\x00\x00\x00"
+            (server.STATIC / "canopy.webp").write_bytes(sample)
+            (server.STATIC / "private.webp").write_bytes(sample)
+            with client.opener.open(self.base + "/canopy.webp", timeout=5) as response:
+                self.assertEqual(response.headers["Content-Type"], "image/webp")
+                self.assertEqual(response.read(), sample)
+            self.assertEqual(client.api("/private.webp")[0], 404)
+            self.assertEqual(client.api("/../server.py")[0], 404)
+
     def test_store_and_sensor_visibility(self):
         anon = Browser(self.base)
         self.assertEqual(anon.api("/api/stores")[0], 401)

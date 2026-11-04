@@ -103,6 +103,8 @@ function renderDetails(keepInput = false) {
     const valid = r?.quality === "valid" && Number.isFinite(r.value);
     const unit = /^T\d+$/.test(key) ? " °C" : /^R?H\d+$/.test(key) ? " %" : /^LUX\d+$/.test(key) ? " lx" : "";
     const tile = tag("div",null,"reading");
+    tile.dataset.quality = valid ? "valid" : "error";
+    if (valid && /^R?H\d+$/.test(key)) tile.dataset.kind = "humidity";
     tile.append(tag("b",Object.hasOwn(labels,key) ? key + " · " + labels[key] : key),
       tag("strong",valid ? r.value.toLocaleString("ko-KR",{maximumFractionDigits:2}) + unit : "—"),
       tag("small",r ? mapped(qualities,r.quality) : "미수신"));

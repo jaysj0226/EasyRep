@@ -23,6 +23,12 @@ from gateway import Gateway, GatewayError
 
 
 STATIC = Path(__file__).resolve().parent / "static"
+STATIC_TYPES = {
+    "/index.html": "text/html; charset=utf-8",
+    "/style.css": "text/css; charset=utf-8",
+    "/app.js": "text/javascript; charset=utf-8",
+    "/canopy.webp": "image/webp",
+}
 IDENTIFIER = re.compile(r"[A-Za-z0-9][A-Za-z0-9_-]{0,63}\Z")
 USERNAME = re.compile(r"[A-Za-z0-9][A-Za-z0-9_.@-]{0,79}\Z")
 SESSION_LIFETIME = 8 * 3600
@@ -306,10 +312,9 @@ class Handler(BaseHTTPRequestHandler):
     def route(self, db):
         method = self.command
         url = urlsplit(self.path)
-        if method == "GET" and url.path in ("/", "/index.html", "/style.css", "/app.js"):
-            filename = url.path.lstrip("/") or "index.html"
-            kind = {"index.html": "text/html", "style.css": "text/css", "app.js": "text/javascript"}[filename]
-            return self.reply(200, (STATIC / filename).read_bytes(), kind + "; charset=utf-8")
+        asset = "/index.html" if url.path == "/" else url.path
+        if method == "GET" and asset in STATIC_TYPES:
+            return self.reply(200, (STATIC / asset[1:]).read_bytes(), STATIC_TYPES[asset])
         if not url.path.startswith("/api/"):
             raise missing()
         parts = url.path[5:].split("/")
